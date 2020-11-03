@@ -1,0 +1,20 @@
+<주제>
+한정적 돈으로 얼마나 식사 시간(+동선), 비용 (greedy)
+* 학교 내, 가천관, 예술대학, 비전타워 학생식당, 비전타워 상가
+* 가게이름, 메뉴, 음식 종류, 가격
+* 사용자 기준 : 음식(한식,중식,양식) 종류 -> 
+* input : 현재위치, 음식 종류, 가지고 있는 돈, 가용한 시간(목적지)
+* ouput : 가게이름(위치), 메뉴, 가격, 
+              동선, 이동하는데 걸리는 시간, 식사 시간(추후).....
+언어 : C언어
+
+---------------첫 발표-----------------------
+A brief description of the steps you will take to complete the project
+ ㆍStrategy :  알고리즘 : dijkstra(출발점) , 자료수집해서 -> c언어이용해서 만들겠따.
+ ㆍSchedule : 
+ ㆍAssigning project tasks 
+ ㆍVolume: 5~10 slides
+Project design (Proposal): Nov. 3 (Tuesday)
+ppt ; 방근호, announce : 최형인
+Final presentation & report: Dec. 3 (Thursday)
+
