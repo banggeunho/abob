@@ -5,13 +5,22 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Set;
+import java.io.PrintWriter;
 import java.lang.*;
 
 public class DB {
+	public static Hashtable<Integer, String> menu_set =new Hashtable<Integer, String>();
+	
 	boolean DB(int a_time, int m_time, int rest) {
 		int result;
 	    int cnt=0;
 	    int food_time;
+	     
 		Connection con = null;
 		try
 		{
@@ -28,10 +37,12 @@ public class DB {
 		Statement stmt = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		ResultSet prs = null;
+		ResultSet prs = null;		
+	//	n.put(name,out); // 위에서 선언한 n이라는 해쉬테이블에 client 정보를 넣어줌.
+	//	n.remove(name,out); //n hashTable에서 해당 name 제거
 		try {
 			//stmt = con.createStatement();
-			String psql = "select str_name, loc, name, cost,cook_time from store natural join menu where ?-(cook_time+?)>0 and str_id=?";
+			String psql = "select str_name, loc, name, cost,cook_time,menu_id from store natural join menu where ?-(cook_time+?)>900 and str_id=?";
 			
 			pstmt= con.prepareStatement(psql);
 			pstmt.setInt(1, a_time*60); //query문에 사용.
@@ -52,10 +63,13 @@ public class DB {
 				if(rs.wasNull()) cost = "null";
 				String cook_time = rs.getString(5);
 				if(rs.wasNull()) cook_time = "null";
+				String menu_id = rs.getString(6);
+				if(rs.wasNull()) cook_time = "null";
 				food_time = a_time - (m_time + Integer.parseInt(cook_time)/60);
-				System.out.println("<"+str_name + ">\t\t\n" +"장소: "+ str_loc +
-											"\n 메뉴: "+ name + "\n비용: " + cost + "원\n조리시간: " + Integer.parseInt(cook_time)/60+
-											"분\n식사가능시간: "+food_time+"분\n");
+				String ab = "["+name + "] // " + str_name +
+						 " // " + cost + "원 // "+food_time+"분\n";
+				//System.out.println(ab);			
+				DB.menu_set.put(Integer.parseInt(menu_id), ab);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();

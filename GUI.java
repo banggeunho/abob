@@ -1,0 +1,160 @@
+
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JList;
+import java.awt.List;
+import javax.swing.AbstractListModel;
+import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
+import javax.swing.UIManager;
+
+public class GUI extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField a_time;
+	private JTextField cur_loc;
+	private JTextField des_loc;
+
+	List list;
+	/**
+	 * Launch the application.
+	 */
+
+	/**
+	 * Create the frame.
+	 */
+	@SuppressWarnings("rawtypes")
+	public GUI() {
+		setTitle("Abob Project v1");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 581, 322);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(85, 107, 47));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		panel.setBackground(new Color(85, 107, 47));
+		panel.setBounds(12, 10, 188, 263);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		a_time = new JTextField();
+		a_time.setBounds(22, 86, 128, 21);
+		panel.add(a_time);
+		a_time.setColumns(10);
+		
+		cur_loc = new JTextField();
+		cur_loc.setColumns(10);
+		cur_loc.setBounds(22, 133, 128, 21);
+		panel.add(cur_loc);
+		
+		des_loc = new JTextField();
+		des_loc.setColumns(10);
+		des_loc.setBounds(22, 178, 128, 21);
+		panel.add(des_loc);
+		
+		JButton btnNewButton = new JButton("Show Bob");
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setFont(new Font("배달의민족 주아", Font.PLAIN, 16));
+		btnNewButton.setBorder(UIManager.getBorder("CheckBox.border"));
+		btnNewButton.setBackground(new Color(128, 128, 0));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String temp;
+				locationToIndex lti = new locationToIndex();
+				floydwarshall floyd = new floydwarshall();
+				DB jdbc = new DB();
+				int cnt=0;
+				list.clear();
+				
+				int[] c_r_time = new int[5];
+				int[] r_d_time = new int[5];
+				int[] m_time = new int[5]; 
+				temp = lti.Convert(cur_loc.getText(), des_loc.getText());		
+				int cur_index = Integer.parseInt(temp.substring(0, temp.indexOf(",")));
+				int des_index = Integer.parseInt(temp.substring(temp.indexOf(",")+1));
+				for(int i=0;i<5;i++) {// <식당> 0:가천관, 1:비전타워(학식), 2:비전타워(학식)
+					//, 3:교육대학(학식), 4:예술대학(학식)
+					c_r_time[i] = floyd.distance(cur_index, i*2+1);
+					r_d_time[i] = floyd.distance( i*2+1, des_index);
+					m_time[i] = c_r_time[i] + r_d_time[i];
+					if(jdbc.DB(Integer.parseInt(a_time.getText()), m_time[i],i*2+1))
+							cnt++;
+					}
+				if(cnt>0) {
+				String result = DB.menu_set.toString();
+				System.out.println(result);
+				String[] Parsing=new String[300];
+				for(int i=0; i<DB.menu_set.size();i++) {
+					Parsing[i] = result.substring(result.indexOf("=")+1, result.indexOf("분")+1);
+					result = result.substring(result.indexOf(",")+1);
+					System.out.println(Parsing[i]);
+				}
+			for(int i=0; i<DB.menu_set.size(); i++) {
+				list.add(Parsing[i], i);
+				}
+				}
+				else System.out.println("메세지 박스 추가");
+			}
+		});
+		btnNewButton.setBounds(12, 209, 164, 44);
+		panel.add(btnNewButton);
+		
+		JLabel lblNewLabel = new JLabel("Free Time");
+		lblNewLabel.setFont(new Font("배달의민족 주아", Font.PLAIN, 13));
+		lblNewLabel.setBounds(12, 68, 76, 15);
+		panel.add(lblNewLabel);
+		
+		JLabel lblCurrentLocation = new JLabel("Current Location");
+		lblCurrentLocation.setFont(new Font("배달의민족 주아", Font.PLAIN, 13));
+		lblCurrentLocation.setBounds(12, 113, 109, 15);
+		panel.add(lblCurrentLocation);
+		
+		JLabel lblDestination = new JLabel("Destination");
+		lblDestination.setFont(new Font("배달의민족 주아", Font.PLAIN, 13));
+		lblDestination.setBounds(12, 160, 96, 15);
+		panel.add(lblDestination);
+		
+		JLabel lblproject = new JLabel("\uC544\uBC25Project");
+		lblproject.setBackground(new Color(85, 107, 47));
+		lblproject.setFont(new Font("배달의민족 주아", Font.PLAIN, 22));
+		lblproject.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblproject.setHorizontalAlignment(SwingConstants.CENTER);
+		lblproject.setBounds(12, 10, 164, 48);
+		panel.add(lblproject);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		panel_1.setBackground(new Color(85, 107, 47));
+		panel_1.setBounds(212, 10, 341, 263);
+		contentPane.add(panel_1);
+		
+		list = new List();
+		list.setBounds(10, 39, 321, 214);
+		panel_1.add(list);
+		list.setFont(new Font("배달의민족 주아", Font.PLAIN, 14));
+		
+		JLabel lblNewLabel_1 = new JLabel("\uC2DD\uC0AC \uAC00\uB2A5\uD55C \uBA54\uB274");
+		lblNewLabel_1.setBounds(10, 10, 347, 23);
+		panel_1.add(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("배달의민족 주아", Font.PLAIN, 17));
+		
+
+	}
+}
