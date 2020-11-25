@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.List;
 import javax.swing.AbstractListModel;
 import javax.swing.JLabel;
@@ -54,16 +56,19 @@ public class GUI extends JFrame {
 		panel.setLayout(null);
 		
 		a_time = new JTextField();
+		a_time.setText("30");
 		a_time.setBounds(22, 86, 128, 21);
 		panel.add(a_time);
 		a_time.setColumns(10);
 		
 		cur_loc = new JTextField();
+		cur_loc.setText("IT\uB300\uD559");
 		cur_loc.setColumns(10);
 		cur_loc.setBounds(22, 133, 128, 21);
 		panel.add(cur_loc);
 		
 		des_loc = new JTextField();
+		des_loc.setText("\uAC00\uCC9C\uAD00");
 		des_loc.setColumns(10);
 		des_loc.setBounds(22, 178, 128, 21);
 		panel.add(des_loc);
@@ -109,13 +114,15 @@ public class GUI extends JFrame {
 				list.add(Parsing[i], i);
 				}
 				}
-				else System.out.println("메세지 박스 추가");
-			}
+				else {
+					JOptionPane.showMessageDialog(null,"식사시간이 부족합니다!.(ㅠㅠ)","알림",JOptionPane.PLAIN_MESSAGE);
+					}
+				}
 		});
 		btnNewButton.setBounds(12, 209, 164, 44);
 		panel.add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("Free Time");
+		JLabel lblNewLabel = new JLabel("Free Time (\uBD84)");
 		lblNewLabel.setFont(new Font("배달의민족 주아", Font.PLAIN, 13));
 		lblNewLabel.setBounds(12, 68, 76, 15);
 		panel.add(lblNewLabel);
@@ -150,7 +157,7 @@ public class GUI extends JFrame {
 		panel_1.add(list);
 		list.setFont(new Font("배달의민족 주아", Font.PLAIN, 14));
 		
-		JLabel lblNewLabel_1 = new JLabel("\uC2DD\uC0AC \uAC00\uB2A5\uD55C \uBA54\uB274");
+		JLabel lblNewLabel_1 = new JLabel("\uC2DD\uC0AC \uAC00\uB2A5\uD55C \uBA54\uB274\r\n(\uBA54\uB274 / \uC7A5\uC18C / \uAC00\uACA9 / \uC2DD\uC0AC\uAC00\uB2A5\uC2DC\uAC04)");
 		lblNewLabel_1.setBounds(10, 10, 347, 23);
 		panel_1.add(lblNewLabel_1);
 		lblNewLabel_1.setFont(new Font("배달의민족 주아", Font.PLAIN, 17));
