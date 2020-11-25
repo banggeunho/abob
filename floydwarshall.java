@@ -36,9 +36,9 @@ public class floydwarshall {
 			{17,13,17,18,20,16,17,12,10,17,15,16,15,19,16,6,1}};
     
 	floydwarshall() {
-		for(int i= 0 ; i < arr.length ; i++){
-			for(int j = 0 ; j < arr.length ; j++){
-				for(int k = 0 ; k < arr.length ; k++){
+		for(int k= 0 ; k < arr.length ; k++){
+			for(int i = 0 ; i < arr.length ; i++){
+				for(int j = 0 ; j < arr.length ; j++){
 						arr[i][j] = Math.min(arr[i][j], arr[i][k]+arr[k][j]);
 				}
 			}
