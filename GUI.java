@@ -21,15 +21,31 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
+import java.awt.event.ItemEvent; 
+import java.awt.event.ItemListener; 
+import java.awt.event.WindowAdapter; 
+import java.awt.event.WindowEvent; 
+import java.awt.*; 
+import java.awt.event.*;
+import javax.swing.JTextPane;
+import javax.swing.JScrollPane; 
 
-public class GUI extends JFrame {
+public class GUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField a_time;
 	private JTextField cur_loc;
 	private JTextField des_loc;
-
 	List list;
+	JTextPane txtpnDetail;
+	int cur_index;
+	int des_index;
+	int str_index;
+	/**
+	 * @wbp.nonvisual location=-44,49
+	 */
+	private final JScrollPane scrollPane = new JScrollPane();
+
 	/**
 	 * Launch the application.
 	 */
@@ -82,33 +98,34 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String temp;
 				locationToIndex lti = new locationToIndex();
-				floydwarshall floyd = new floydwarshall();
+				//floydwarshall floyd = new floydwarshall();
 				DB jdbc = new DB();
 				int cnt=0;
 				list.clear();
+				txtpnDetail.setText("Detail..");
 				
 				int[] c_r_time = new int[5];
 				int[] r_d_time = new int[5];
 				int[] m_time = new int[5]; 
 				temp = lti.Convert(cur_loc.getText(), des_loc.getText());		
-				int cur_index = Integer.parseInt(temp.substring(0, temp.indexOf(",")));
-				int des_index = Integer.parseInt(temp.substring(temp.indexOf(",")+1));
+				cur_index = Integer.parseInt(temp.substring(0, temp.indexOf(",")));
+				des_index = Integer.parseInt(temp.substring(temp.indexOf(",")+1));
 				for(int i=0;i<5;i++) {// <식당> 0:가천관, 1:비전타워(학식), 2:비전타워(학식)
 					//, 3:교육대학(학식), 4:예술대학(학식)
-					c_r_time[i] = floyd.distance(cur_index, i*2+1);
-					r_d_time[i] = floyd.distance( i*2+1, des_index);
+					c_r_time[i] = floydwarshall.distance(cur_index, i*2+1);
+					r_d_time[i] = floydwarshall.distance( i*2+1, des_index);
 					m_time[i] = c_r_time[i] + r_d_time[i];
-					if(jdbc.DB(Integer.parseInt(a_time.getText()), m_time[i],i*2+1))
+					if(jdbc.DB(Integer.parseInt(a_time.getText()), m_time[i], i*2+1))
 							cnt++;
 					}
 				if(cnt>0) {
 				String result = DB.menu_set.toString();
-				System.out.println(result);
+				//System.out.println(result);
 				String[] Parsing=new String[300];
 				for(int i=0; i<DB.menu_set.size();i++) {
-					Parsing[i] = result.substring(result.indexOf("=")+1, result.indexOf("분")+1);
+					Parsing[i] = result.substring(result.indexOf("=")+1, result.indexOf("#"));
 					result = result.substring(result.indexOf(",")+1);
-					System.out.println(Parsing[i]);
+					//System.out.println(Parsing[i]);
 				}
 			for(int i=0; i<DB.menu_set.size(); i++) {
 				list.add(Parsing[i], i);
@@ -153,15 +170,46 @@ public class GUI extends JFrame {
 		contentPane.add(panel_1);
 		
 		list = new List();
-		list.setBounds(10, 39, 321, 214);
+		list.setForeground(Color.GRAY);
+		list.addItemListener( new ItemListener() { 
+			  public void itemStateChanged(ItemEvent e) { 
+			    if( e.getStateChange() == ItemEvent.SELECTED ) { 
+			    	str_index = Integer.parseInt(list.getSelectedItem().substring(0,1));
+			    	StringBuilder rs = new StringBuilder();
+			    	int time = floydwarshall.distance(cur_index, str_index) + floydwarshall.distance(str_index, des_index);
+			    	rs.append("<최단경로>  총 "+time+"분 소요\n");
+					floydwarshall.printPath(cur_index, str_index);
+					if(str_index != cur_index)
+					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(cur_index, str_index)+"분 소요]\n");
+					floydwarshall.printPath(str_index, des_index);
+					if(str_index != des_index)
+					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(str_index, des_index)+"분 소요]\n");
+			    	 txtpnDetail.setText(rs.toString());
+			   } 
+			  }
+		});
+
+		list.setBounds(10, 39, 321, 136);
 		panel_1.add(list);
 		list.setFont(new Font("배달의민족 주아", Font.PLAIN, 14));
 		
 		JLabel lblNewLabel_1 = new JLabel("\uC2DD\uC0AC \uAC00\uB2A5\uD55C \uBA54\uB274\r\n(\uBA54\uB274 / \uC7A5\uC18C / \uAC00\uACA9 / \uC2DD\uC0AC\uAC00\uB2A5\uC2DC\uAC04)");
 		lblNewLabel_1.setBounds(10, 10, 347, 23);
 		panel_1.add(lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("배달의민족 주아", Font.PLAIN, 17));
+		lblNewLabel_1.setFont(new Font("배달의민족 주아", Font.PLAIN, 17));		
 		
-
+		txtpnDetail = new JTextPane();
+		txtpnDetail.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		txtpnDetail.setFont(new Font("배달의민족 주아", Font.PLAIN, 13));
+		txtpnDetail.setForeground(new Color(0, 0, 0));
+		txtpnDetail.setBackground(new Color(85, 107, 47));
+		txtpnDetail.setText("Detail..");
+		txtpnDetail.setBounds(10, 181, 321, 72);
+		panel_1.add(txtpnDetail);
 	}
-}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	}

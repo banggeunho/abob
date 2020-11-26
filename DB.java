@@ -10,14 +10,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
+import java.awt.Component;
 import java.io.PrintWriter;
 import java.lang.*;
 
 public class DB {
 	public static Hashtable<Integer, String> menu_set =new Hashtable<Integer, String>();
+	public static int menu_cnt=0;
 	
 	boolean DB(int a_time, int m_time, int rest) {
-		int result;
 	    int cnt=0;
 	    int food_time;
 	     
@@ -42,7 +43,7 @@ public class DB {
 	//	n.remove(name,out); //n hashTable에서 해당 name 제거
 		try {
 			//stmt = con.createStatement();
-			String psql = "select str_name, loc, name, cost,cook_time,menu_id from store natural join menu where ?-(cook_time+?)>900 and str_id=?";
+			String psql = "select str_name, str_id, name, cost,cook_time,menu_id from store natural join menu where ?-900>=(cook_time+?) and str_id=?";
 			
 			pstmt= con.prepareStatement(psql);
 			pstmt.setInt(1, a_time*60); //query문에 사용.
@@ -55,8 +56,8 @@ public class DB {
 				cnt++;
 				String str_name = rs.getString(1);
 				if(rs.wasNull()) str_name = "null";
-				String str_loc = rs.getString(2);
-				if(rs.wasNull()) str_loc = "null";
+				String str_id = rs.getString(2);
+				if(rs.wasNull()) str_id = "null";
 				String name = rs.getString(3);
 				if(rs.wasNull()) name = "null";
 				String cost  = rs.getString(4);
@@ -64,12 +65,14 @@ public class DB {
 				String cook_time = rs.getString(5);
 				if(rs.wasNull()) cook_time = "null";
 				String menu_id = rs.getString(6);
-				if(rs.wasNull()) cook_time = "null";
+				if(rs.wasNull()) menu_id = "null";
+				//nt menu_cnt = rs.getInt(7);
+				//if(rs.wasNull()) menu_cnt = (Integer) null;
 				food_time = a_time - (m_time + Integer.parseInt(cook_time)/60);
-				String ab = "["+name + "] // " + str_name +
-						 " // " + cost + "원 // "+food_time+"분\n";
-				//System.out.println(ab);			
+				String ab = str_id+"["+name + "] // " + str_name +
+						 " // " + cost + "원 // "+food_time+"분#\n";
 				DB.menu_set.put(Integer.parseInt(menu_id), ab);
+				//menu_cnt += menu_cnt;
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();

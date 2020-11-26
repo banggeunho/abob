@@ -51,7 +51,7 @@ public class Parsing {
 			food_time = a_time - (m_time + Integer.parseInt(cook_time)/60);
 			ab = "<"+name + ">\t\t\n" +"장소: "+ str_name +
 					 "\n비용: " + cost + "원\n조리시간: " + Integer.parseInt(cook_time)/60+
-						"분\n"+"이동시간: "+m_time+"분\n식사가능시간: "+food_time+"분\n";
+						"분\n"+"이동시간: "+m_time+"분\n식사가능시간: "+food_time+"분\n"+m_time+"분\n";
 			System.out.println(ab);
 		}
 	} catch (SQLException e2) {

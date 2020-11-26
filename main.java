@@ -17,9 +17,9 @@ public class main {
 		String store_loc = null; // 가게 위치
 		String temp;
 		floydwarshall floyd = new floydwarshall();
-		locationToIndex lti = new locationToIndex();
-		DB jdbc = new DB();
-		GUI GUI = new GUI();
+		//locationToIndex lti = new locationToIndex();
+		//DB jdbc = new DB();
+		//GUI GUI = new GUI();
 
 		GUI frame = new GUI();			
 		frame.setVisible(true);
