@@ -27,7 +27,7 @@ public class DB {
 		{
 		    Class.forName("com.mysql.cj.jdbc.Driver");
 		    String url="jdbc:mysql://localhost:3306/abob?serverTimezone=UTC&useSSL=false";
-		    String user = "root", passwd = "1234";
+		    String user = "root", passwd = "12345";
 		    con = DriverManager.getConnection(url, user, passwd);
 		   // System.out.println(con);
 		} catch(ClassNotFoundException e) {
