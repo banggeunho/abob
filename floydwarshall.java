@@ -43,6 +43,7 @@ public class floydwarshall {
     static int cost[][] = new int[17][17];
     
 	floydwarshall() {
+		System.out.println("CCCCCCCCCCCCC");
 		for(int i =0; i<arr.length;i++)
 			for(int j=0; j<arr.length;j++) {
 				path[i][j] = 0;
