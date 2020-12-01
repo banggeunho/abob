@@ -1,97 +1,76 @@
-
-/*Index º° Àå¼Ò ÁöÁ¤(column)
- * 0: IT´ëÇĞ
- * 1: °¡Ãµ°ü(½Ä´ç)
- * 2: ±Û·Î¹ú¼¾ÅÍ
- * 3: ºñÀüÅ¸¿ö(ÇĞ½Ä)
- * 4: °ø°ú´ëÇĞ1
- * 5: ºñÀüÅ¸¿ö(½Ä´ç°¡)
- * 6: °ø°ú´ëÇĞ2
- * 7: ±³À°´ëÇĞ¿ø(ÇĞ½Ä)
- * 8: Áß¾Óµµ¼­°ü
- * 9: ¿¹¼ú´ëÇĞ1(ÇĞ½Ä)
- * 10: ÀüÀÚÁ¤º¸µµ¼­°ü
- * 11: ¿¹¼ú´ëÇĞ2
- * 12: ¹ÙÀÌ¿À³ª³ë´ëÇĞ
- * 13: ¹ÙÀÌ¿À³ª³ë¿¬±¸¿ø
- * 14: ¿õÁö°ü
- * 15: ÇĞ»ıÈ¸°ü
- * 16: ±â¼÷»ç
- */   // ½Ä´ç ÀÖ´Â °÷ 1, 3, 5, 7, 9
-
 public class locationToIndex {
-	String Convert(String cur_loc, String des_loc) {
-		String result="";
-	if(cur_loc.startsWith("IT"))
-		result +="0";
-	if(cur_loc.startsWith("°¡Ãµ°ü"))
-		result +="1";
-	if(cur_loc.startsWith("±Û·Î¹ú¼¾ÅÍ"))
-		result +="2";
-	if(cur_loc.startsWith("ºñÀüÅ¸¿ö(ÇĞ"))
-		result +="3";
-	if(cur_loc.startsWith("°ø°ú´ëÇĞ1"))
-		result +="4";
-	if(cur_loc.startsWith("ºñÀüÅ¸¿ö(»ó"))
-		result +="5";
-	if(cur_loc.startsWith("°ø°ú´ëÇĞ2"))
-		result +="6";
-	if(cur_loc.startsWith("±³À°´ëÇĞ"))
-		result +="7";
-	if(cur_loc.startsWith("Áß¾Óµµ¼­°ü"))
-		result +="8";
-	if(cur_loc.startsWith("¿¹¼ú´ëÇĞ1"))
-		result +="9";
-	if(cur_loc.startsWith("ÀüÀÚÁ¤º¸"))
-		result +="10";
-	if(cur_loc.startsWith("¿¹¼ú´ëÇĞ2"))
-		result +="11";
-	if(cur_loc.startsWith("¹ÙÀÌ¿À³ª³ë´ëÇĞ"))
-		result +="12";
-	if(cur_loc.startsWith("¹ÙÀÌ¿À³ª³ë¿¬±¸"))
-		result +="13";
-	if(cur_loc.startsWith("¿õÁö"))
-		result +="14";
-	if(cur_loc.startsWith("ÇĞ»ıÈ¸"))
-		result +="15";
-	if(cur_loc.startsWith("±â¼÷»ç"))
-		result +="16";
-	
-	if(des_loc.startsWith("IT"))
-		result +=",0";
-	if(des_loc.startsWith("°¡Ãµ°ü"))
-		result +=",1";
-	if(des_loc.startsWith("±Û·Î¹ú¼¾ÅÍ"))
-		result +=",2";
-	if(des_loc.startsWith("ºñÀüÅ¸¿ö(ÇĞ"))
-		result +=",3";
-	if(des_loc.startsWith("°ø°ú´ëÇĞ1"))
-		result +=",4";
-	if(des_loc.startsWith("ºñÀüÅ¸¿ö(»ó"))
-		result +=",5";
-	if(des_loc.startsWith("°ø°ú´ëÇĞ2"))
-		result +=",6";
-	if(des_loc.startsWith("±³À°´ëÇĞ"))
-		result +=",7";
-	if(des_loc.startsWith("Áß¾Óµµ¼­°ü"))
-		result +=",8";
-	if(des_loc.startsWith("¿¹¼ú´ëÇĞ1"))
-		result +=",9";
-	if(des_loc.startsWith("ÀüÀÚÁ¤º¸"))
-		result +=",10";
-	if(des_loc.startsWith("¿¹¼ú´ëÇĞ2"))
-		result +=",11";
-	if(des_loc.startsWith("¹ÙÀÌ¿À³ª³ë´ëÇĞ"))
-		result +=",12";
-	if(des_loc.startsWith("¹ÙÀÌ¿À³ª³ë¿¬±¸"))
-		result +=",13";
-	if(des_loc.startsWith("¿õÁö"))
-		result +=",14";
-	if(des_loc.startsWith("ÇĞ»ıÈ¸"))
-		result +=",15";
-	if(des_loc.startsWith("±â¼÷»ç"))
-		result +=",16";
-	
-	return result; 
-	}
+   String Convert(String cur_loc, String des_loc) {
+      String result="";
+   if(cur_loc.contains("IT") || cur_loc.contains("ì•„ì´í‹°"))
+      result +="0";
+   if(cur_loc.contains("ê°€ì²œ"))
+      result +="1";
+   if(cur_loc.contains("ê¸€ë¡œë²Œ") ||cur_loc.contains("ê¸€ì„¼"))
+      result +="2";
+   if(cur_loc.startsWith("ë¹„ì „íƒ€ì›Œ(í•™"))
+      result +="3";
+   if(cur_loc.startsWith("ê³µê³¼ëŒ€í•™1") || cur_loc.startsWith("ê³µëŒ€1") || cur_loc.startsWith("ê³µí•™ê´€"))
+      result +="4";
+   if(cur_loc.startsWith("ë¹„ì „íƒ€ì›Œ(ìƒ"))
+      result +="5";
+   if(cur_loc.startsWith("ê³µê³¼ëŒ€í•™2") || cur_loc.startsWith("ê³µëŒ€2") || cur_loc.startsWith("ì°½ì˜ê´€"))
+      result +="6";
+   if(cur_loc.contains("êµìœ¡") || cur_loc.startsWith("êµëŒ€"))
+      result +="7";
+   if(cur_loc.contains("ì¤‘ì•™") || cur_loc.startsWith("ì¤‘ë„"))
+      result +="8";
+   if(cur_loc.startsWith("ì˜ˆìˆ ëŒ€í•™1") || cur_loc.startsWith("ì˜ˆëŒ€1") || cur_loc.startsWith("ì°½ì¡°ê´€"))
+      result +="9";
+   if(cur_loc.startsWith("ì „ìì •ë³´ë„ì„œê´€") || cur_loc.startsWith("ì „ìì •ë³´") ||cur_loc.startsWith("ì „ì •ë„"))
+      result +="10";
+   if(cur_loc.startsWith("ì˜ˆìˆ ëŒ€í•™2") || cur_loc.startsWith("ì˜ˆëŒ€2") || cur_loc.startsWith("ì˜ˆìŒê´€"))
+      result +="11";
+   if(cur_loc.startsWith("ë°”ì´ì˜¤ë‚˜ë…¸ëŒ€í•™") || cur_loc.startsWith("ë°”ë‚˜ëŒ€") || cur_loc.startsWith("ì§„ë¦¬ê´€"))
+      result +="12";
+   if(cur_loc.startsWith("ë°”ì´ì˜¤ë‚˜ë…¸ì—°êµ¬") || cur_loc.startsWith("ë°”ë‚˜ì—°"))
+      result +="13";
+   if(cur_loc.startsWith("ì‚°í•™í˜‘ë ¥ê´€") || cur_loc.startsWith("ì›…ì§€ê´€"))
+      result +="14";
+   if(cur_loc.startsWith("í•™ìƒíšŒê´€"))
+      result +="15";
+   if(cur_loc.startsWith("ê¸°ìˆ™ì‚¬") || cur_loc.startsWith("ê¸±ì‚¬"))
+      result +="16";
+   
+   if(des_loc.contains("IT") || des_loc.contains("ì•„ì´í‹°"))
+	      result +=",0";
+	   if(des_loc.contains("ê°€ì²œ"))
+	      result +=",1";
+	   if(des_loc.contains("ê¸€ë¡œë²Œ") ||des_loc.contains("ê¸€ì„¼"))
+	      result +=",2";
+	   if(des_loc.startsWith("ë¹„ì „íƒ€ì›Œ(í•™"))
+	      result +=",3";
+	   if(des_loc.startsWith("ê³µê³¼ëŒ€í•™1") || des_loc.startsWith("ê³µëŒ€1") || des_loc.startsWith("ê³µí•™ê´€"))
+	      result +=",4";
+	   if(des_loc.startsWith("ë¹„ì „íƒ€ì›Œ(ìƒ"))
+	      result +=",5";
+	   if(des_loc.startsWith("ê³µê³¼ëŒ€í•™2") || des_loc.startsWith("ê³µëŒ€2") || des_loc.startsWith("ì°½ì˜ê´€"))
+	      result +=",6";
+	   if(des_loc.contains("êµìœ¡") || des_loc.startsWith("êµëŒ€"))
+	      result +=",7";
+	   if(des_loc.contains("ì¤‘ì•™") || des_loc.startsWith("ì¤‘ë„"))
+	      result +=",8";
+	   if(des_loc.startsWith("ì˜ˆìˆ ëŒ€í•™1") || des_loc.startsWith("ì˜ˆëŒ€1") || des_loc.startsWith("ì°½ì¡°ê´€"))
+	      result +=",9";
+	   if(des_loc.startsWith("ì „ìì •ë³´ë„ì„œê´€") || des_loc.startsWith("ì „ìì •ë³´") ||des_loc.startsWith("ì „ì •ë„"))
+	      result +=",10";
+	   if(des_loc.startsWith("ì˜ˆìˆ ëŒ€í•™2") || des_loc.startsWith("ì˜ˆëŒ€2") || des_loc.startsWith("ì˜ˆìŒê´€"))
+	      result +=",11";
+	   if(des_loc.startsWith("ë°”ì´ì˜¤ë‚˜ë…¸ëŒ€í•™") || des_loc.startsWith("ë°”ë‚˜ëŒ€") || des_loc.startsWith("ì§„ë¦¬ê´€"))
+	      result +=",12";
+	   if(des_loc.startsWith("ë°”ì´ì˜¤ë‚˜ë…¸ì—°êµ¬") || des_loc.startsWith("ë°”ë‚˜ì—°"))
+	      result +=",13";
+	   if(des_loc.startsWith("ì‚°í•™í˜‘ë ¥ê´€") || des_loc.startsWith("ì›…ì§€ê´€"))
+	      result +=",14";
+	   if(des_loc.startsWith("í•™ìƒíšŒê´€"))
+	      result +=",15";
+	   if(des_loc.startsWith("ê¸°ìˆ™ì‚¬") || des_loc.startsWith("ê¸±ì‚¬"))
+	      result +=",16";
+   
+   return result; 
+   }
 }

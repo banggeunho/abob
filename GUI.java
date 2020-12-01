@@ -34,34 +34,58 @@ import java.util.Comparator;
 import java.awt.*; 
 import java.awt.event.*;
 import javax.swing.JTextPane;
-import javax.swing.JScrollPane; 
+import javax.swing.JScrollPane;
+import javax.swing.JTable; 
+import javax.swing.table.DefaultTableModel;
+
+
 
 public class GUI extends JFrame implements ActionListener {
 
+	static String menu_list[][];
+	private String[] column_list= {"번 호", "메 뉴", "장 소", "비 용", "식사가능시간"};
 	private JPanel contentPane;
 	private JTextField a_time;
 	private JTextField cur_loc;
 	private JTextField des_loc;
+	JLabel lblNewLabel_1 = new JLabel("Bob List");
 	List list;
 	JTextPane txtpnDetail;
 	int cur_index;
 	int des_index;
 	int str_index;
-	/**
-	 * @wbp.nonvisual location=-44,49
-	 */
-	private final JScrollPane scrollPane = new JScrollPane();
 
-	/**
-	 * Launch the application.
-	 */
+	private JTable table = new JTable();
+	private final JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+
 
 	/**
 	 * Create the frame.
 	 */
 	@SuppressWarnings("rawtypes")
 	public GUI() {
-		setTitle("Abob Project v1");
+		table.setAutoCreateRowSorter(true);
+		table.setFont(new Font("배달의민족 주아", Font.PLAIN, 14));
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+							JTable target = (JTable) e.getSource();
+					    	str_index = Integer.parseInt(menu_list[target.getSelectedRow()][5]);
+					    	StringBuilder rs = new StringBuilder();
+					    	int time = floydwarshall.distance(cur_index, str_index) + floydwarshall.distance(str_index, des_index);
+					    	rs.append("<Path>  총 "+time+"분 소요\n");
+							floydwarshall.printPath(cur_index, str_index);
+							if(str_index != cur_index)
+							rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(cur_index, str_index)+"분]\n");
+							floydwarshall.printPath(str_index, des_index);
+							if(str_index != des_index)
+							rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(str_index, des_index)+"분]\n");
+					    	txtpnDetail.setText(rs.toString());
+			}
+		});
+		
+		setTitle("Abob Project v5");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 620, 342);
 		contentPane = new JPanel();
@@ -70,7 +94,7 @@ public class GUI extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();//왼쪽 패널
+		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		panel.setBackground(new Color(85, 107, 47));
 		panel.setBounds(12, 10, 188, 283);
@@ -104,55 +128,56 @@ public class GUI extends JFrame implements ActionListener {
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				menu_list = new String[40][6];
 				String temp;
 				locationToIndex lti = new locationToIndex();
-				//floydwarshall floyd = new floydwarshall();
 				DB jdbc = new DB();
 				int cnt=0;
-				list.clear();
-				txtpnDetail.setText("Detail..");
-				
+				txtpnDetail.setText("Path..");				
 				int[] c_r_time = new int[5];
 				int[] r_d_time = new int[5];
 				int[] m_time = new int[5]; 
 				temp = lti.Convert(cur_loc.getText(), des_loc.getText());		
 				cur_index = Integer.parseInt(temp.substring(0, temp.indexOf(",")));
 				des_index = Integer.parseInt(temp.substring(temp.indexOf(",")+1));
-				for(int i=0;i<5;i++) {// <식당> 0:가천관, 1:비전타워(학식), 2:비전타워(학식)
-					//, 3:교육대학(학식), 4:예술대학(학식)
+				for(int i=0;i<5;i++) {
 					c_r_time[i] = floydwarshall.distance(cur_index, i*2+1);
 					r_d_time[i] = floydwarshall.distance( i*2+1, des_index);
 					m_time[i] = c_r_time[i] + r_d_time[i];
 					try {
 						if(jdbc.DB(Integer.parseInt(a_time.getText()), m_time[i], i*2+1)) {
 							cnt++;
+							System.out.println(cnt);
 						}	
 					}
 					catch(NumberFormatException | NullPointerException e1) {
-						JOptionPane.showMessageDialog(null,"숫자를 입력해주세요!","알림",JOptionPane.PLAIN_MESSAGE);
+						JOptionPane.showMessageDialog(null,"숫자를 입력해 주세요","알림", JOptionPane.PLAIN_MESSAGE);
 						cnt=-1;
 						break;
 					}
 				}
 				if(cnt>0) {
-					String result = DB.menu_set.toString();
-					//System.out.println(result);
-					String[] Parsing=new String[300];
-					for(int i=0; i<DB.menu_set.size();i++) {
-						Parsing[i] = result.substring(result.indexOf("=")+1, result.indexOf("#"));
-						result = result.substring(result.indexOf(",")+1);
-						//System.out.println(Parsing[i]);
+					DefaultTableModel dtm = new DefaultTableModel();
+					for(int i=0; i<column_list.length;i++ )
+					{
+						dtm.addColumn(column_list[i]);
 					}
-					for(int i=0; i<DB.menu_set.size(); i++) {
-						list.add(Parsing[i],i);//?
-						}
+					for(int i=0;i<menu_list.length;i++)
+					{
+						if(menu_list[i][0]!=null)
+						 dtm.addRow(menu_list[i]);
+						else break;
+					}
+					table.setModel(dtm);
+					lblNewLabel_1.setText("Bob List: " + DB.menu_cnt+"개");
+					DB.menu_cnt=0;
 				}
 				else if(cnt!=-1){
-					JOptionPane.showMessageDialog(null,"식사시간이 부족합니다!.(ㅠㅠ)","알림",JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null,"식사시간이 부족합니다.","알림",JOptionPane.PLAIN_MESSAGE);
 					}
 				}
 		});
-		btnNewButton.setBounds(12, 209, 164, 44);
+		btnNewButton.setBounds(12, 218, 164, 44);
 		panel.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("Free Time (\uBD84)");
@@ -172,13 +197,13 @@ public class GUI extends JFrame implements ActionListener {
 		
 		JLabel lblproject = new JLabel("\uC544\uBC25Project");
 		lblproject.setBackground(new Color(85, 107, 47));
-		lblproject.setFont(new Font("배달의민족 주아", Font.PLAIN, 22));
+		lblproject.setFont(new Font("배달의민족 주아", Font.PLAIN, 25));
 		lblproject.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblproject.setHorizontalAlignment(SwingConstants.CENTER);
 		lblproject.setBounds(12, 10, 164, 48);
 		panel.add(lblproject);
 		
-		JPanel panel_1 = new JPanel();//오른쪽 큰 패널
+		JPanel panel_1 = new JPanel();//�삤瑜몄そ �겙 �뙣�꼸
 		panel_1.setLayout(null);
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		panel_1.setBackground(new Color(85, 107, 47));
@@ -188,118 +213,42 @@ public class GUI extends JFrame implements ActionListener {
 		list = new List();
 		
 		list.setForeground(Color.GRAY);
-		list.addItemListener( new ItemListener() { //list 클릭시 경로출력
+		list.addItemListener( new ItemListener() { //list �겢由��떆 寃쎈줈異쒕젰
 			  public void itemStateChanged(ItemEvent e) { 
 			    if( e.getStateChange() == ItemEvent.SELECTED ) { 
 			    	str_index = Integer.parseInt(list.getSelectedItem().substring(0,1));
 			    	StringBuilder rs = new StringBuilder();
 			    	int time = floydwarshall.distance(cur_index, str_index) + floydwarshall.distance(str_index, des_index);
-			    	rs.append("<최단경로>  총 "+time+"분 소요\n");
+			    	rs.append("<Path>  총 "+time+"분 소요\n");
 					floydwarshall.printPath(cur_index, str_index);
 					if(str_index != cur_index)
-					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(cur_index, str_index)+"분 소요]\n");
+					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(cur_index, str_index)+"분]\n");
 					floydwarshall.printPath(str_index, des_index);
 					if(str_index != des_index)
-					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(str_index, des_index)+"분 소요]\n");
+					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(str_index, des_index)+"분]\n");
 			    	txtpnDetail.setText(rs.toString());
 			   } 
 			  }
 		});
 
-		list.setBounds(10, 59, 361, 136);//y축 조절, 콤보박스 삽입
-		panel_1.add(list);
-		list.setFont(new Font("배달의민족 주아", Font.PLAIN, 14));
-		//라디오버튼 추가
-		JRadioButton priceRB = new JRadioButton("가격순");
-		JRadioButton timeRB = new JRadioButton("시간순");
-		ButtonGroup group = new ButtonGroup();
-		group.add(priceRB);
-		group.add(timeRB);
-		panel_1.add(priceRB);
-		panel_1.add(timeRB);
-		priceRB.setFont(new Font("배달의민족 주아", Font.PLAIN, 17));	
-		timeRB.setFont(new Font("배달의민족 주아", Font.PLAIN, 17));	
-		priceRB.setBounds(10,33,80,15);
-		timeRB.setBounds(90,33,80,15);
-		priceRB.setBackground(new Color(85, 107, 47));
-		timeRB.setBackground(new Color(85, 107, 47));
-		
-		priceRB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int size = list.getItemCount();
-				String getlist[] = new String[size];
-				String temp[] = new String[size];
-				String intStr;
-				int price[][] = new int[size][2];
-				for(int i=0; i<	list.getItemCount(); i++) {
-					getlist[i]= list.getItem(i);
-					temp=getlist[i].split("//");
-					intStr= temp[2].replaceAll("[^\\d]", "");
-					price[i][0] = Integer.parseInt(intStr);
-					price[i][1] = i;
-				}
-				Arrays.sort(price,Comparator.comparing(o1-> o1[0]));
-				list.setVisible(false);
 				
-				for(int i=0; i<size;i++)
-				{
-					list.add(list.getItem(price[i][1]));
-				}
-				for(int i=size-1; i>=0; i--)
-				{
-					list.remove(i);
-				}
-				list.setVisible(true);
-			}
-		});
-		
-		timeRB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int size = list.getItemCount();
-				String getlist[] = new String[size];
-				String temp[] = new String[size];
-				String intStr;
-				int time[][] = new int[size][2];
-				for(int i=0; i<	list.getItemCount(); i++) {
-					getlist[i]= list.getItem(i);
-					temp=getlist[i].split("//");
-					intStr= temp[3].replaceAll("[^\\d]", "");
-					time[i][0] = Integer.parseInt(intStr);
-					time[i][1] = i;
-				}
-				Arrays.sort(time,Comparator.comparing(o1-> o1[0]));
-				list.setVisible(false);
-				
-				for(int i=0; i<size;i++)
-				{
-					list.add(list.getItem(time[i][1]));
-				}
-				for(int i=size-1; i>=0; i--)
-				{
-					list.remove(i);
-				}
-				list.setVisible(true);
-			}
-		});
-
-		
-		
-		
-		
-		//식사가능한 메뉴
-		JLabel lblNewLabel_1 = new JLabel("\uC2DD\uC0AC \uAC00\uB2A5\uD55C \uBA54\uB274\r\n(\uBA54\uB274 / \uC7A5\uC18C / \uAC00\uACA9 / \uC2DD\uC0AC\uAC00\uB2A5\uC2DC\uAC04)");
 		lblNewLabel_1.setBounds(10, 10, 347, 23);
 		panel_1.add(lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("배달의민족 주아", Font.PLAIN, 17));		
+		lblNewLabel_1.setFont(new Font("배달의민족 주아", Font.PLAIN, 23));		
 		
 		txtpnDetail = new JTextPane();
 		txtpnDetail.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		txtpnDetail.setFont(new Font("배달의민족 주아", Font.PLAIN, 13));
+		txtpnDetail.setFont(new Font("배달의민족 주아", Font.PLAIN, 14));
 		txtpnDetail.setForeground(new Color(0, 0, 0));
 		txtpnDetail.setBackground(new Color(85, 107, 47));
-		txtpnDetail.setText("Detail..");
+		txtpnDetail.setText("<Path>");
 		txtpnDetail.setBounds(10, 201, 361, 72);
 		panel_1.add(txtpnDetail);
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 3));
+		
+		scrollPane.setBounds(10, 41, 359, 151);
+		panel_1.add(scrollPane);
+		panel_1.setVisible(true);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
