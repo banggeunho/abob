@@ -70,7 +70,7 @@ public class GUI extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();//¿ŞÂÊ ÆĞ³Î
+		JPanel panel = new JPanel();//ì™¼ìª½ íŒ¨ë„
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		panel.setBackground(new Color(85, 107, 47));
 		panel.setBounds(12, 10, 188, 283);
@@ -97,7 +97,7 @@ public class GUI extends JFrame implements ActionListener {
 		
 		JButton btnNewButton = new JButton("Show Bob");
 		btnNewButton.setBorderPainted(false);
-		btnNewButton.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 16));
+		btnNewButton.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 16));
 		btnNewButton.setBorder(UIManager.getBorder("CheckBox.border"));
 		btnNewButton.setBackground(new Color(128, 128, 0));
 		
@@ -118,8 +118,8 @@ public class GUI extends JFrame implements ActionListener {
 				temp = lti.Convert(cur_loc.getText(), des_loc.getText());		
 				cur_index = Integer.parseInt(temp.substring(0, temp.indexOf(",")));
 				des_index = Integer.parseInt(temp.substring(temp.indexOf(",")+1));
-				for(int i=0;i<5;i++) {// <½Ä´ç> 0:°¡Ãµ°ü, 1:ºñÀüÅ¸¿ö(ÇĞ½Ä), 2:ºñÀüÅ¸¿ö(ÇĞ½Ä)
-					//, 3:±³À°´ëÇĞ(ÇĞ½Ä), 4:¿¹¼ú´ëÇĞ(ÇĞ½Ä)
+				for(int i=0;i<5;i++) {// <ì‹ë‹¹> 0:ê°€ì²œê´€, 1:ë¹„ì „íƒ€ì›Œ(í•™ì‹), 2:ë¹„ì „íƒ€ì›Œ(í•™ì‹)
+					//, 3:êµìœ¡ëŒ€í•™(í•™ì‹), 4:ì˜ˆìˆ ëŒ€í•™(í•™ì‹)
 					c_r_time[i] = floydwarshall.distance(cur_index, i*2+1);
 					r_d_time[i] = floydwarshall.distance( i*2+1, des_index);
 					m_time[i] = c_r_time[i] + r_d_time[i];
@@ -129,7 +129,7 @@ public class GUI extends JFrame implements ActionListener {
 						}	
 					}
 					catch(NumberFormatException | NullPointerException e1) {
-						JOptionPane.showMessageDialog(null,"¼ıÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä!","¾Ë¸²",JOptionPane.PLAIN_MESSAGE);
+						JOptionPane.showMessageDialog(null,"ìˆ«ìë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”!","ì•Œë¦¼",JOptionPane.PLAIN_MESSAGE);
 						cnt=-1;
 						break;
 					}
@@ -148,7 +148,7 @@ public class GUI extends JFrame implements ActionListener {
 						}
 				}
 				else if(cnt!=-1){
-					JOptionPane.showMessageDialog(null,"½Ä»ç½Ã°£ÀÌ ºÎÁ·ÇÕ´Ï´Ù!.(¤Ğ¤Ğ)","¾Ë¸²",JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null,"ì‹ì‚¬ì‹œê°„ì´ ë¶€ì¡±í•©ë‹ˆë‹¤!.(ã… ã… )","ì•Œë¦¼",JOptionPane.PLAIN_MESSAGE);
 					}
 				}
 		});
@@ -156,29 +156,29 @@ public class GUI extends JFrame implements ActionListener {
 		panel.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("Free Time (\uBD84)");
-		lblNewLabel.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 13));
+		lblNewLabel.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 13));
 		lblNewLabel.setBounds(12, 68, 76, 15);
 		panel.add(lblNewLabel);
 		
 		JLabel lblCurrentLocation = new JLabel("Current Location");
-		lblCurrentLocation.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 13));
+		lblCurrentLocation.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 13));
 		lblCurrentLocation.setBounds(12, 113, 109, 15);
 		panel.add(lblCurrentLocation);
 		
 		JLabel lblDestination = new JLabel("Destination");
-		lblDestination.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 13));
+		lblDestination.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 13));
 		lblDestination.setBounds(12, 160, 96, 15);
 		panel.add(lblDestination);
 		
 		JLabel lblproject = new JLabel("\uC544\uBC25Project");
 		lblproject.setBackground(new Color(85, 107, 47));
-		lblproject.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 22));
+		lblproject.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 22));
 		lblproject.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblproject.setHorizontalAlignment(SwingConstants.CENTER);
 		lblproject.setBounds(12, 10, 164, 48);
 		panel.add(lblproject);
 		
-		JPanel panel_1 = new JPanel();//¿À¸¥ÂÊ Å« ÆĞ³Î
+		JPanel panel_1 = new JPanel();//ì˜¤ë¥¸ìª½ í° íŒ¨ë„
 		panel_1.setLayout(null);
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		panel_1.setBackground(new Color(85, 107, 47));
@@ -188,37 +188,37 @@ public class GUI extends JFrame implements ActionListener {
 		list = new List();
 		
 		list.setForeground(Color.GRAY);
-		list.addItemListener( new ItemListener() { //list Å¬¸¯½Ã °æ·ÎÃâ·Â
+		list.addItemListener( new ItemListener() { //list í´ë¦­ì‹œ ê²½ë¡œì¶œë ¥
 			  public void itemStateChanged(ItemEvent e) { 
 			    if( e.getStateChange() == ItemEvent.SELECTED ) { 
 			    	str_index = Integer.parseInt(list.getSelectedItem().substring(0,1));
 			    	StringBuilder rs = new StringBuilder();
 			    	int time = floydwarshall.distance(cur_index, str_index) + floydwarshall.distance(str_index, des_index);
-			    	rs.append("<ÃÖ´Ü°æ·Î>  ÃÑ "+time+"ºĞ ¼Ò¿ä\n");
+			    	rs.append("<ìµœë‹¨ê²½ë¡œ>  ì´ "+time+"ë¶„ ì†Œìš”\n");
 					floydwarshall.printPath(cur_index, str_index);
 					if(str_index != cur_index)
-					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(cur_index, str_index)+"ºĞ ¼Ò¿ä]\n");
+					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(cur_index, str_index)+"ë¶„ ì†Œìš”]\n");
 					floydwarshall.printPath(str_index, des_index);
 					if(str_index != des_index)
-					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(str_index, des_index)+"ºĞ ¼Ò¿ä]\n");
+					rs.append(floydwarshall.getPath() +"["+floydwarshall.distance(str_index, des_index)+"ë¶„ ì†Œìš”]\n");
 			    	txtpnDetail.setText(rs.toString());
 			   } 
 			  }
 		});
 
-		list.setBounds(10, 59, 361, 136);//yÃà Á¶Àı, ÄŞº¸¹Ú½º »ğÀÔ
+		list.setBounds(10, 59, 361, 136);//yì¶• ì¡°ì ˆ, ì½¤ë³´ë°•ìŠ¤ ì‚½ì…
 		panel_1.add(list);
-		list.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 14));
-		//¶óµğ¿À¹öÆ° Ãß°¡
-		JRadioButton priceRB = new JRadioButton("°¡°İ¼ø");
-		JRadioButton timeRB = new JRadioButton("½Ã°£¼ø");
+		list.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 14));
+		//ë¼ë””ì˜¤ë²„íŠ¼ ì¶”ê°€
+		JRadioButton priceRB = new JRadioButton("ê°€ê²©ìˆœ");
+		JRadioButton timeRB = new JRadioButton("ì‹œê°„ìˆœ");
 		ButtonGroup group = new ButtonGroup();
 		group.add(priceRB);
 		group.add(timeRB);
 		panel_1.add(priceRB);
 		panel_1.add(timeRB);
-		priceRB.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 17));	
-		timeRB.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 17));	
+		priceRB.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 17));	
+		timeRB.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 17));	
 		priceRB.setBounds(10,33,80,15);
 		timeRB.setBounds(90,33,80,15);
 		priceRB.setBackground(new Color(85, 107, 47));
@@ -243,7 +243,7 @@ public class GUI extends JFrame implements ActionListener {
 				
 				for(int i=0; i<size;i++)
 				{
-					list.add(list.getItem(price[i][1]),size+1);
+					list.add(list.getItem(price[i][1]));
 				}
 				for(int i=size-1; i>=0; i--)
 				{
@@ -272,7 +272,7 @@ public class GUI extends JFrame implements ActionListener {
 				
 				for(int i=0; i<size;i++)
 				{
-					list.add(list.getItem(time[i][1]),size+1);
+					list.add(list.getItem(time[i][1]));
 				}
 				for(int i=size-1; i>=0; i--)
 				{
@@ -286,15 +286,15 @@ public class GUI extends JFrame implements ActionListener {
 		
 		
 		
-		//½Ä»ç°¡´ÉÇÑ ¸Ş´º
+		//ì‹ì‚¬ê°€ëŠ¥í•œ ë©”ë‰´
 		JLabel lblNewLabel_1 = new JLabel("\uC2DD\uC0AC \uAC00\uB2A5\uD55C \uBA54\uB274\r\n(\uBA54\uB274 / \uC7A5\uC18C / \uAC00\uACA9 / \uC2DD\uC0AC\uAC00\uB2A5\uC2DC\uAC04)");
 		lblNewLabel_1.setBounds(10, 10, 347, 23);
 		panel_1.add(lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 17));		
+		lblNewLabel_1.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 17));		
 		
 		txtpnDetail = new JTextPane();
 		txtpnDetail.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		txtpnDetail.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· ÁÖ¾Æ", Font.PLAIN, 13));
+		txtpnDetail.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì£¼ì•„", Font.PLAIN, 13));
 		txtpnDetail.setForeground(new Color(0, 0, 0));
 		txtpnDetail.setBackground(new Color(85, 107, 47));
 		txtpnDetail.setText("Detail..");
