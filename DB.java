@@ -35,14 +35,11 @@ public class DB {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		Statement stmt = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ResultSet prs = null;		
+		ResultSet rs = null;	
 	//	n.put(name,out); // 위에서 선언한 n이라는 해쉬테이블에 client 정보를 넣어줌.
 	//	n.remove(name,out); //n hashTable에서 해당 name 제거
 		try {
-			//stmt = con.createStatement();
 			String psql = "select str_name, str_id, name, cost,cook_time,menu_id from store natural join menu where ?-900>=(cook_time+?) and str_id=?";
 			
 			pstmt= con.prepareStatement(psql);
@@ -56,8 +53,8 @@ public class DB {
 				cnt++;
 				String str_name = rs.getString(1);
 				if(rs.wasNull()) str_name = "null";
-				String str_id = rs.getString(2);
-				if(rs.wasNull()) str_id = "null";
+				int str_id = rs.getInt(2);
+				if(rs.wasNull()) str_id = (Integer)null;
 				String name = rs.getString(3);
 				if(rs.wasNull()) name = "null";
 				String cost  = rs.getString(4);
@@ -68,11 +65,18 @@ public class DB {
 				if(rs.wasNull()) menu_id = "null";
 				//nt menu_cnt = rs.getInt(7);
 				//if(rs.wasNull()) menu_cnt = (Integer) null;
-				food_time = a_time - (m_time + Integer.parseInt(cook_time)/60);
+				food_time = a_time - (m_time + Integer.parseInt(cook_time)/60);//
 				String ab = str_id+"["+name + "] // " + str_name +
 						 " // " + cost + "원 // "+food_time+"분#\n";
+				System.out.println(GUI.menu_list.length);
+				GUI.menu_list[menu_cnt][0] = Integer.toString(menu_cnt+1);
+				GUI.menu_list[menu_cnt][1] = name;
+				GUI.menu_list[menu_cnt][2] = str_name;
+				GUI.menu_list[menu_cnt][3] = cost;
+				GUI.menu_list[menu_cnt][4] = Integer.toString(food_time);
+				GUI.menu_list[menu_cnt][5] =Integer.toString(str_id);
 				DB.menu_set.put(Integer.parseInt(menu_id), ab);
-				//menu_cnt += menu_cnt;
+				menu_cnt += 1;
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
